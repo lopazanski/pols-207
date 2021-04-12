@@ -1,0 +1,108 @@
+---
+title: "POLS 207 - Problem Set #1"
+author: "Cori Lopazanski"
+date: "4/12/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Attach Packages
+library(tidyverse)
+library(schoolmath)
+```
+
+
+### Problem 1
+Suppose the government of Pakistan institutes a new reform that provides Rs. 1,000 per month to households in the country whose monthly income is below Rs. 5,000. The objective of the reform is to improve child enrollment in schools. It is believed that reducing household budget constraints (through the income supplement) will allow households to put more children in school.
+
+a) If the reform is a binary treatment, $D \in \{0, 1\}$, and $D_i = 1$ indicates that the household, $i$, receives the treatment, then $Y_{1i}$ represents the potential share of children in school if the household, $i$, receives the income supplement. $Y_{0i}$ represents the potential share of children in school for the household if it does not receive the income supplement.  
+
+b) The average treatment effect is the expected difference between the potential treatment outcomes and potential control outcomes:
+$$
+ATE = \mathbb{E} [Y_{1i}-Y_{0i}]
+$$
+For the reform program, the $ATE$ describes the true average difference in the potential share of children in school for a household receiving the income supplement compared to the same household without the income supplement, regardless of whether or not the household actually received the income supplement. $ATE$ is the true value for the entire population, while $\widehat{ATE}$ is the estimate for the sample based on the survey data. 
+
+c) $ATT$ is the average difference in the potential share of children in school for a household receiving the income supplement compared to the same household without the income supplement, but only for households that received the income supplement.
+
+d) The $ATT$ and $ATE$ will be equal to each other either when the treatment is randomly assigned.
+
+Given that the $ATE$ is the average treatment effect among all units $ATE = \mathbb{E} [Y_{1i}-Y_{0i}]$:
+$$
+\begin{array}{rcl}
+ATE & = & \mathbb{E} [Y_{1i}-Y_{0i}] \\
+    & = & \mathbb{E} [Y_{1i}] - \mathbb{E} [Y_{0i}] \\
+    & = & \mathbb{E} [Y_{1i} | D_i = 1] + \mathbb{E} [Y_{1i} | D_i = 0] - ( \mathbb{E} [Y_{0i}| D_i = 1] + \mathbb{E} [Y_{0i} | D_i = 0]) \\
+    & = & \mathbb{E} [Y_{1i} | D_i = 1] - \mathbb{E} [Y_{0i}| D_i = 1] + \mathbb{E} [Y_{1i} | D_i = 0] - \mathbb{E} [Y_{0i} | D_i = 0]\\
+\end{array}
+$$
+
+Since $ATT = \mathbb{E} [Y_{1i} - Y_{0i} | D_i = 1]$, we can then write:
+$$
+ATE = ATT + (\mathbb{E} [Y_{1i} | D_i = 0] - \mathbb{E} [Y_{0i} | D_i = 0])
+$$
+
+The second term above is often referred to as the "selection bias." However, if the treatment is randomly assigned, then we can assume that the treated and untreaded groups will have similar characteristics and thus identical "untreated" potential outcomes, or $\mathbb{E}[Y_{0i}|D_i = 0] = \mathbb{E}[Y_{1i}|D_i = 0]$. This means that the selection bias term, $(\mathbb{E} [Y_{1i} | D_i = 0] - \mathbb{E} [Y_{0i} | D_i = 0])$, will be equal to zero, thus:
+
+$$
+\begin{array}{rcl}
+ATE & = & ATT + 0 \\
+ATE & = & ATT
+\end{array}
+$$
+
+e) Random assignment can be used to identify the average treatment effect for a subgroup because we can assume that the group's potential outcomes are independent of the assignment of treatment, or $\mathbb{E}[Y_{0}|X = x, D = 0] = \mathbb{E}[Y_{0}| X=x,D = 1]$ 
+$$
+\begin{array}{rcl}
+\tau_{ATE(x)} & = & \mathbb{E}[Y_1 - Y_0 | X = x] \\
+              & = & \mathbb{E}[Y_1 | X=x] - \mathbb{E}[Y_0 | X=x] \\
+              & = & \mathbb{E} [Y_{1} | X = x, D = 1] + \mathbb{E} [Y_{1} | X = x, D = 0] - ( \mathbb{E} [Y_{0}| X=x, D = 1] + \mathbb{E} [Y_{0} | X=x,D = 0]) \\
+              & = & \mathbb{E} [Y_{1} | X = x, D = 1] - \mathbb{E} [Y_{0}| X=x, D = 1] + (\mathbb{E} [Y_{1} | X = x, D = 0] - \mathbb{E} [Y_{0} | X=x,D = 0]) 
+\end{array}
+$$
+We assume that the group's potential outcomes are independent of the assignment treatment, or $\mathbb{E}[Y_{0}|X = x, D = 0] = \mathbb{E}[Y_{0}| X=x,D = 1]$. Substituting $\mathbb{E}[Y_{0}|X = x, D = 0]$ for $\mathbb{E}[Y_{0}| X=x,D = 1]$ allows us to write the equation:
+
+$$
+\tau_{ATE(x)} = \mathbb{E} [Y_{1} | X = x, D = 1] - \mathbb{E}[Y_{0}|X = x, D = 0] + (\mathbb{E} [Y_{1} | X = x, D = 0] - \mathbb{E} [Y_{0} | X=x,D = 0])
+$$
+Further, as in part d), because of random assignment we assume that there is no difference in untreated potential outcomes $\mathbb{E}[Y_{0i}|D_i = 0] = \mathbb{E}[Y_{1i}|D_i = 0]$, so the second term is equal to zero. This gives us our average treatment effect in identifiable terms, as our observed outcomes are the treated group with the treatment, and the untreated group without treatment: 
+
+$$
+\tau_{ATE(x)} = \mathbb{E} [Y_{1} | X = x, D = 1] - \mathbb{E}[Y_{0}|X = x, D = 0] 
+$$
+
+### Problem 2
+
+a) An individual treatment effect is the difference between the observed outcome with or without treatment, and the counterfactual outcome that would have occurred had the unit either recieved or not received the treatment. The fundamental problem with causal inference is that we only observe one of these outcomes based on what actually occurred.
+
+$$
+\text{treatment effect}= Y_1 - Y_0
+$$
+
+b) The average treatment effect is the expected difference between the potential treatment outcomes and potential control outcomes.
+$$
+ATE = \mathbb{E} [Y_{1i}-Y_{0i}]
+$$
+```{r message=FALSE, warning=FALSE}
+### Read Data
+data <- read_csv("POdata.csv")
+
+### Calculate ATE
+tau <- data %>% 
+  group_by(X1) %>% 
+  summarize(ite = Treat - Control)
+
+ate <- mean(tau$ite)
+```
+
+For this dataset, the average treatment effect is `r ate`.
+
+c) Examining the distribution of individual treatment effects shows that the treatment does not seem to have a clear effect. There is a high number of individual negative effects between -5 to -15, and also a high number of individual positive effects from 5 to 15. This is somewhat captured in the ATE, which showed that there was an average effect of `r ate`. However, one might incorrectly interpret this result to mean that the treatment has an overall slight positive effect - which would potentially be misleading given the distribution of the individual effects.
+
+```{r message=FALSE, warning=FALSE}
+hist(tau$ite)
+```
+
+
