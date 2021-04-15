@@ -1,0 +1,29 @@
+---
+title: 'POLS 207 - Problem Set #2'
+author: "Cori Lopazanski"
+date: "4/15/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Problem 1
+
+a)
+b)
+c)
+d)
+e)
+
+### Problem 2
+
+a)
+b)
+c)
+
+### Problem 3
+
+a)
+b)
