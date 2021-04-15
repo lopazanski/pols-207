@@ -6,14 +6,41 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+
 ```
 
 ### Problem 1
 
-a)
-b)
-c)
+```{r}
+### Read Olken Data & Initial Cleaning
+olken <- read_csv("olken_data.csv") %>% 
+  drop_na() # Remove all observations with NA
+
+```
+
+a) Use difference in means estimator to estimate ATE of community participation 
+
+```{r}
+# Calculate average percent missing for each group (treatment and control):
+means <- olken %>% 
+  group_by(treat_invite) %>% 
+  summarize(mean = mean(pct_missing)) 
+
+# Find difference in means:
+ate <- means$mean[means$treat_invite == 1] - means$mean[means$treat_invite == 0]
+```
+
+Encouraging community participation in monitoring had an average treatment effect of `r ate` on the percent expenditures missing for road building projects. 
+
+b) what characteristics do the treatment/control groups differ?
+
+c) use regression to estimate the ATE (heteroskedastistic-consistent SEs) is this different from DIMs estimate?
 d)
 e)
 
