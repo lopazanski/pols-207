@@ -1,0 +1,17 @@
+---
+title: 'POLS 207: Problem Set #3'
+author: "Cori Lopazanski"
+date: "4/27/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### 1) Experimental Baseline
+
+a) Using the experimental data, obtain an unbiased estimate of the ATE of NSW on 1978 earnings, its SE and a 95% CI using heteroskedasticity-consistent SE.
+
+b) 
